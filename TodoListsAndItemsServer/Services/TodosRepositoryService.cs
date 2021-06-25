@@ -19,18 +19,6 @@ namespace TodoListsAndItemsServer.Services.Repositories
             _dataReader = dataReader;
         }
 
-        private async Task _LoadData()
-        {
-            /*if (_isDataLoaded)
-            {
-                return;
-            }
-
-            _isDataLoaded = true;*/
-            await _LoadGroups();
-            await _LoadItems();
-        }
-
         private async Task _LoadItems()
         {
             _todoItems = (await _dataReader.GetAllTodoItems()).ToDictionary(i => i.Id);

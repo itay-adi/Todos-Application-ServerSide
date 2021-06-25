@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TodoListsAndItemsServer.Entities;
+using TodoListsAndItemsServer.Mappers;
+using TodoListsAndItemsServer.Models.DTOs;
 using TodoListsAndItemsServer.Services;
 
 namespace TodoListsAndItemsServer.Controllers
@@ -21,21 +23,23 @@ namespace TodoListsAndItemsServer.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<TodoItem>>> GetAllItems()
+        public async Task<ActionResult<List<TodoItemDTO>>> GetAllItems()
         {
             var AllItems = await this._todosRepository.GetAllTodoItems();
+            var AllItemsDTO = AllItems.Select(i => TodoItemMapper.Map(i));
 
-            return Ok(AllItems);
+            return Ok(AllItemsDTO);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<TodoGroup>> GetTodoItemById(int id)
+        public async Task<ActionResult<TodoItemDTO>> GetTodoItemById(int id)
         {
             try
             {
-                var group = await this._todosRepository.GetTodoItemById(id);
+                var item = await this._todosRepository.GetTodoItemById(id);
+                var itemDTO = TodoItemMapper.Map(item);
 
-                return Ok(group);
+                return Ok(item);
             }
             catch
             {
