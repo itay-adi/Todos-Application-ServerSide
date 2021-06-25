@@ -18,7 +18,6 @@ namespace TodoListsAndItemsServer.Services
         public Task<List<TodoGroup>> GetAllTodoGroups()
         {
             var filePath = Path.Combine(_basePath, _todoGroupsFile);
-
             var JsonContent = File.ReadAllText(filePath);
             var allTodoGroupsAsList = JsonConvert.DeserializeObject<List<TodoGroup>>(JsonContent);
 
@@ -28,7 +27,6 @@ namespace TodoListsAndItemsServer.Services
         public Task<List<TodoItem>> GetAllTodoItems()
         {
             var filePath = Path.Combine(_basePath, _todoItemsFile);
-
             var JsonContent = File.ReadAllText(filePath);
             var allTodoItemsAsList = JsonConvert.DeserializeObject<List<TodoItem>>(JsonContent);
 

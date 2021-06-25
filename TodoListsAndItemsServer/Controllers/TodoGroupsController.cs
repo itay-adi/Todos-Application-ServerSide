@@ -28,6 +28,19 @@ namespace TodoListsAndItemsServer.Controllers
             return Ok(AllGroups);
         }
 
-        
+        [HttpGet("{id}")]
+        public async Task<ActionResult<TodoGroup>> GetTodoGroupById(int id)
+        {
+            try
+            {
+                var group = await this._todosRepository.GetTodoGroupById(id);
+
+                return Ok(group);
+            }
+            catch
+            {
+                return NotFound();
+            }
+        }
     }
 }

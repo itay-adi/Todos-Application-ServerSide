@@ -27,5 +27,51 @@ namespace TodoListsAndItemsServer.Controllers
 
             return Ok(AllItems);
         }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<TodoGroup>> GetTodoItemById(int id)
+        {
+            try
+            {
+                var group = await this._todosRepository.GetTodoItemById(id);
+
+                return Ok(group);
+            }
+            catch
+            {
+                return NotFound();
+            }
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> RemoveItem(int id)
+        {
+            try
+            {
+                await _todosRepository.DeleteTodoItemById(id);
+
+                return Ok();
+            }
+
+            catch
+            {
+                return NotFound();
+            }
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<TodoItem>> AddTodoItem([FromBody] TodoItem todoItem)
+        {
+            try
+            {
+                var item = await _todosRepository.AddTodoItem(todoItem);
+
+                return CreatedAtRoute(nameof(todoItem), new { TodoItemId = todoItem.Id }, item);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
     }
 }

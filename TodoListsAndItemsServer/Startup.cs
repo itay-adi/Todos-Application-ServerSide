@@ -27,7 +27,7 @@ namespace TodoListsAndItemsServer
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddTransient<IDataReaderService, JsonDataReaderService>();//New Object for each call
-            services.AddSingleton<ITodosRepositoryService, TodosRepositoryService>();//Same Object for all calls
+            services.AddScoped<ITodosRepositoryService, TodosRepositoryService>();//Same Object for all calls
             services.AddControllers();
         }
 
