@@ -6,6 +6,8 @@ using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 using TodoListsAndItemsServer.Entities;
+using TodoListsAndItemsServer.Models.DTOs;
+using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace TodoListsAndItemsServer.Services
 {
@@ -31,6 +33,38 @@ namespace TodoListsAndItemsServer.Services
             var allTodoItemsAsList = JsonConvert.DeserializeObject<List<TodoItem>>(JsonContent);
 
             return Task.FromResult(allTodoItemsAsList);
+        }
+
+        public Task WriteToTodoItems(List<TodoItem> todoItem)
+        {
+            try
+            {
+                string json = JsonSerializer.Serialize(todoItem);
+                var filePath = Path.Combine(_basePath, _todoItemsFile);
+                File.WriteAllText(filePath, json);
+
+                return Task.CompletedTask;
+            }
+            catch
+            {
+                throw new Exception("Could not write to TodoItemFile");
+            }
+        }
+
+        public Task WriteToTodoGroups(List<TodoGroup> todoGroup)
+        {
+            try
+            {
+                string json = JsonSerializer.Serialize(todoGroup);
+                var filePath = Path.Combine(_basePath, _todoGroupsFile);
+                File.WriteAllText(filePath, json);
+
+                return Task.CompletedTask;
+            }
+            catch
+            {
+                throw new Exception("Could not write to TodoGroupFile");
+            }
         }
     }
 }

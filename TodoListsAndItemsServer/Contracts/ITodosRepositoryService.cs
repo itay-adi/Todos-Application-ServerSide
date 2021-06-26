@@ -11,11 +11,14 @@ namespace TodoListsAndItemsServer.Services
         //Todo Group Methods
         Task<List<TodoGroup>> GetAllTodoGroups();
         Task<TodoGroup> GetTodoGroupById(int groupId);
+        Task<Task> DeleteTodoGroupById(int groupId);
 
         //Todo Item Methods
         Task<List<TodoItem>> GetAllTodoItems();
         Task<TodoItem> GetTodoItemById(int itemId);
-        Task DeleteTodoItemById(int itemId);
-        Task<TodoItem> AddTodoItem(TodoItem todoItem);
+        Task<Task> DeleteTodoItemById(int itemId);
+        Task<TodoItem> ChangeTodoItemStatus(int itemId);
+        
+        //Task<TodoItem> AddTodoItem(TodoItem todoItem);
     }
 }

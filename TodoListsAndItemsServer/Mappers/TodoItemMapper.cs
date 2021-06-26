@@ -9,7 +9,7 @@ namespace TodoListsAndItemsServer.Mappers
 {
     public class TodoItemMapper
     {
-        public static TodoItemDTO Map(TodoItem item)
+        public static TodoItemDTO MapToItemDTO(TodoItem item)
         {
             TodoItemDTO itemDTO = new()
             {
@@ -20,6 +20,19 @@ namespace TodoListsAndItemsServer.Mappers
             };
 
             return itemDTO;
+        }
+
+        public static TodoItem MapToItem(TodoItemDTO itemDTO)
+        {
+            TodoItem item = new()
+            {
+                Id = itemDTO.Id,
+                GroupId = itemDTO.ListId,
+                Caption = itemDTO.Caption,
+                IsCompleted = itemDTO.IsCompleted
+            };
+
+            return item;
         }
     }
 }

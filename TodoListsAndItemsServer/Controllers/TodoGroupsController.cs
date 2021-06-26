@@ -26,7 +26,7 @@ namespace TodoListsAndItemsServer.Controllers
         public async Task<ActionResult<List<TodoGroupDTO>>> GetAllGroups()
         {
             var AllGroups = await this._todosRepository.GetAllTodoGroups();
-            var AllGroupsDTO = AllGroups.Select(g => TodoGroupMapper.Map(g)).ToList();
+            var AllGroupsDTO = AllGroups.Select(g => TodoGroupMapper.MapToGroupDTO(g)).ToList();
 
             return Ok(AllGroupsDTO);
         }
@@ -37,10 +37,26 @@ namespace TodoListsAndItemsServer.Controllers
             try
             {
                 var group = await this._todosRepository.GetTodoGroupById(id);
-                var groupDTO = TodoGroupMapper.Map(group);
+                var groupDTO = TodoGroupMapper.MapToGroupDTO(group);
 
                 return Ok(groupDTO);
             }
+            catch
+            {
+                return NotFound();
+            }
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> RemoveGroup(int id)
+        {
+            try
+            {
+                await _todosRepository.DeleteTodoGroupById(id);
+
+                return Ok();
+            }
+
             catch
             {
                 return NotFound();

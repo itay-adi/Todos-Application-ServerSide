@@ -16,6 +16,8 @@ namespace TodoListsAndItemsServer
 {
     public class Startup
     {
+        readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -28,6 +30,19 @@ namespace TodoListsAndItemsServer
         {
             services.AddTransient<IDataReaderService, JsonDataReaderService>();//New Object for each call
             services.AddScoped<ITodosRepositoryService, TodosRepositoryService>();//Same Object for all calls
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy(name: MyAllowSpecificOrigins,
+                                  builder =>
+                                  {
+                                      builder.WithOrigins("http://localhost:4200",
+                                                          "http://localhost:5000")
+                                                          .AllowAnyHeader()
+                                                          .AllowAnyMethod();
+                                  });
+            });
+
             services.AddControllers();
         }
 
@@ -40,6 +55,8 @@ namespace TodoListsAndItemsServer
             }
 
             app.UseRouting();
+
+            app.UseCors(MyAllowSpecificOrigins);
 
             app.UseAuthorization();
 

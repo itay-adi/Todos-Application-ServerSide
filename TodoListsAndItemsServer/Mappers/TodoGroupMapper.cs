@@ -9,7 +9,7 @@ namespace TodoListsAndItemsServer.Mappers
 {
     public class TodoGroupMapper
     {
-        public static TodoGroupDTO Map(TodoGroup group)
+        public static TodoGroupDTO MapToGroupDTO(TodoGroup group)
         {
             TodoGroupDTO groupDTO = new()
             {
@@ -21,6 +21,20 @@ namespace TodoListsAndItemsServer.Mappers
             };
 
             return groupDTO;
+        }
+
+        public static TodoGroup MapToGroup(TodoGroupDTO groupDTO)
+        {
+            TodoGroup group = new()
+            {
+                Id = groupDTO.Id,
+                Caption = groupDTO.Caption,
+                Description = groupDTO.Description,
+                Icon = groupDTO.Icon,
+                Color = groupDTO.Color
+            };
+
+            return group;
         }
     }
 }
