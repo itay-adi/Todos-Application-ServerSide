@@ -62,5 +62,37 @@ namespace TodoListsAndItemsServer.Controllers
                 return NotFound();
             }
         }
+
+        [HttpPut("{id}")]
+        public async Task<ActionResult<TodoGroupDTO>> RemoveGroup(int id, [FromBody] TodoGroupDTO groupDTO)
+        {
+            try
+            {
+                var group = TodoGroupMapper.MapToGroup(groupDTO);
+
+                await _todosRepository.EditTodoGroupById(id, group);
+
+                return Ok(groupDTO);
+            }
+
+            catch
+            {
+                return NotFound();
+            }
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<TodoGroup>> AddNewGroup([FromBody] TodoGroupDTO groupDTO)
+        {
+            var group = TodoGroupMapper.MapToGroup(groupDTO);
+
+            var newGroup = await _todosRepository.AddNewGroup(group);
+
+            var finalGroupDTO = TodoGroupMapper.MapToGroupDTO(newGroup);
+
+            return Created(nameof(GetTodoGroupById), finalGroupDTO);
+
+            //return CreatedAtRoute(nameof(GetTodoGroupById), new { finalGroupDTO = finalGroupDTO.Id }, finalGroupDTO);
+        }
     }
 }

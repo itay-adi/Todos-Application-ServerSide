@@ -1,1 +1,1 @@
-[{"Id":1,"GroupId":1,"Caption":"sdfsdfsdf sdfsd dsfd","IsCompleted":false},{"Id":2,"GroupId":1,"Caption":"Go Shopping","IsCompleted":false},{"Id":3,"GroupId":2,"Caption":"Go train","IsCompleted":false}]
+[{"Id":1,"GroupId":1,"Caption":"sdfsdfsdf sdfsd dsfd","IsCompleted":true},{"Id":2,"GroupId":1,"Caption":"Go Shopping","IsCompleted":false},{"Id":3,"GroupId":2,"Caption":"Go train","IsCompleted":false}]

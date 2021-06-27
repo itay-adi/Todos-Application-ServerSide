@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TodoListsAndItemsServer.Entities;
+using TodoListsAndItemsServer.Models.DTOs;
 
 namespace TodoListsAndItemsServer.Services
 {
@@ -12,6 +13,8 @@ namespace TodoListsAndItemsServer.Services
         Task<List<TodoGroup>> GetAllTodoGroups();
         Task<TodoGroup> GetTodoGroupById(int groupId);
         Task<Task> DeleteTodoGroupById(int groupId);
+        Task<TodoGroup> EditTodoGroupById(int id, TodoGroup group);
+        Task<TodoGroup> AddNewGroup(TodoGroup group);
 
         //Todo Item Methods
         Task<List<TodoItem>> GetAllTodoItems();

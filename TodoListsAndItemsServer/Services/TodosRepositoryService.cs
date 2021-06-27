@@ -64,6 +64,39 @@ namespace TodoListsAndItemsServer.Services.Repositories
             return Task.CompletedTask;
         }
 
+        public async Task<TodoGroup> EditTodoGroupById(int id, TodoGroup group)
+        {
+            await _LoadGroups();
+
+            if (!_todoGroups.ContainsKey(id))
+            {
+                throw new ArgumentException($"TodoGroup: {id} doesnt exist");
+            }
+
+            _todoGroups.Remove(id);
+
+            _todoGroups[id] = group;
+
+            await _dataReader.WriteToTodoGroups(_todoGroups.Values.ToList());
+
+            return group;
+        }
+
+        public async Task<TodoGroup> AddNewGroup(TodoGroup group)
+        {
+            await _LoadGroups();
+
+            var groupId = _todoGroups.Keys.Max() + 1;
+
+            group.Id = groupId;
+
+            _todoGroups.Add(groupId, group);
+
+            await _dataReader.WriteToTodoGroups(_todoGroups.Values.ToList());
+
+            return group;
+        }
+
         //Todo Item Methods----------------------------------------------------------------------------
         public async Task<List<TodoItem>> GetAllTodoItems()
         {

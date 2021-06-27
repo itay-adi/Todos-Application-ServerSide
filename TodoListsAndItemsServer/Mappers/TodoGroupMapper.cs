@@ -13,7 +13,7 @@ namespace TodoListsAndItemsServer.Mappers
         {
             TodoGroupDTO groupDTO = new()
             {
-                Id = group.Id,
+                Id = (int)group.Id,
                 Caption = group.Caption,
                 Description = group.Description,
                 Icon = group.Icon,
