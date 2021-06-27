@@ -8,12 +8,12 @@ namespace TodoListsAndItemsServer.Services.Repositories
 {
     public class TodosRepositoryService : ITodosRepositoryService
     {
-        private IDataReaderService _dataReader;
+        private IItemDataReaderService _dataReader;
 
         private Dictionary<int, TodoItem> _todoItems;
         private Dictionary<int, TodoGroup> _todoGroups;
 
-        public TodosRepositoryService(IDataReaderService dataReader)
+        public TodosRepositoryService(IItemDataReaderService dataReader)
         {
             _dataReader = dataReader;
         }
@@ -86,11 +86,16 @@ namespace TodoListsAndItemsServer.Services.Repositories
         {
             await _LoadGroups();
 
-            var groupId = _todoGroups.Keys.Max() + 1;
+            if (_todoGroups.Count() > 0) {
+                group.Id = _todoGroups.Keys.Max() + 1; 
+            }
 
-            group.Id = groupId;
+            else
+            {
+                group.Id = 1;
+            }
 
-            _todoGroups.Add(groupId, group);
+            _todoGroups.Add(group.Id, group);
 
             await _dataReader.WriteToTodoGroups(_todoGroups.Values.ToList());
 
@@ -146,12 +151,20 @@ namespace TodoListsAndItemsServer.Services.Repositories
             return _todoItems[itemId];
         }
 
-        /*public async Task<TodoItem> AddTodoItem(TodoItem todoItem)
+        public async Task<TodoItem> AddTodoItem(TodoItem todoItem)
         {
             await _LoadItems();
             await _LoadGroups();
 
-            todoItem.Id = _todoItems.Keys.Max() + 1;
+            if (_todoItems.Count() > 0)
+            {
+                todoItem.Id = _todoItems.Keys.Max() + 1;
+            }
+
+            else
+            {
+                todoItem.Id = 1;
+            }
 
             if (_todoItems.ContainsKey(todoItem.Id))
             {
@@ -168,6 +181,6 @@ namespace TodoListsAndItemsServer.Services.Repositories
             await _dataReader.WriteToTodoItems(_todoItems.Values.ToList());
 
             return todoItem;
-        }*/
+        }
     }
 }

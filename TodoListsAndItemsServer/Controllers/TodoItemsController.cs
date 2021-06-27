@@ -53,8 +53,8 @@ namespace TodoListsAndItemsServer.Controllers
             try
             {
                 var AllItems = await this._todosRepository.GetAllTodoItems();
-                var AllItemsDTO = AllItems.Select(i => TodoItemMapper.MapToItemDTO(i))
-                                          .Where(i => i.IsCompleted == true);
+                var AllItemsDTO = AllItems.Where(i => i.IsCompleted == true)
+                                          .Select(i => TodoItemMapper.MapToItemDTO(i));
 
                 return Ok(AllItemsDTO);
             }
@@ -85,10 +85,8 @@ namespace TodoListsAndItemsServer.Controllers
         public async Task<ActionResult<int>> GetNumberOfActiveTodoItems()
         {
             var AllActiveItemsCounter = (await this._todosRepository.GetAllTodoItems())
-                                                                    .Select(i => i.IsCompleted == false)
+                                                                    .Where(i => i.IsCompleted == false)
                                                                     .Count();
-
-            Console.WriteLine("AllActiveItemsCounter: " + AllActiveItemsCounter);
 
             return Ok(AllActiveItemsCounter);
         }
@@ -115,6 +113,25 @@ namespace TodoListsAndItemsServer.Controllers
                                                               .Count();
 
             return Ok(AllItemsCounter);
+        }
+
+        [HttpGet("countItemsPerGroup/{groupId}")]
+        public async Task<ActionResult<int>> GetNumberOfTodoItemsPerGroup(int groupId)
+        {
+            var AllItemsCounter = (await this._todosRepository.GetAllTodoItems())
+                                                              .Where(i => i.GroupId == groupId)
+                                                              .Count();
+
+            return Ok(AllItemsCounter);
+        }
+
+        [HttpGet("getItemsPerGroup/{groupId}")]
+        public async Task<ActionResult<List<TodoItemDTO>>> GetTodoItemsPerGroup(int groupId)
+        {
+            var AllItemsPerGroup = (await this._todosRepository.GetAllTodoItems())
+                                                              .Where(i => i.GroupId == groupId);
+                                                             
+            return Ok(AllItemsPerGroup);
         }
 
         [HttpDelete("{id}")]
@@ -149,8 +166,7 @@ namespace TodoListsAndItemsServer.Controllers
             }
         }
 
-        /*[HttpPost]
-        [Route("~/todoItems/{id}")]
+        [HttpPost]
         public async Task<ActionResult<TodoItemDTO>> AddTodoItem([FromBody] TodoItemDTO todoItemDTO)
         {
             var todoItem = TodoItemMapper.MapToItem(todoItemDTO);
@@ -159,17 +175,15 @@ namespace TodoListsAndItemsServer.Controllers
             {
                 var item = await _todosRepository.AddTodoItem(todoItem);
 
-                //return Ok(item);
+                var newItemDTO = TodoItemMapper.MapToItemDTO(item);
 
-                //return CreatedAtRoute(nameof(todoItemDTO), new { TodoItemDTO = item.Id }, item);
-
-                return CreatedAtRoute("todoItems", new { id = todoItem.Id });
+                return Created(nameof(GetTodoItemById), newItemDTO);
             }
 
             catch
             {
                 return BadRequest();
             }
-        }*/
+        }
     }
 }

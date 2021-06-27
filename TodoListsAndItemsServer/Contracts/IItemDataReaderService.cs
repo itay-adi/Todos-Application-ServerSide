@@ -5,7 +5,7 @@ using TodoListsAndItemsServer.Models.DTOs;
 
 namespace TodoListsAndItemsServer.Services
 {
-    public interface IDataReaderService
+    public interface IItemDataReaderService
     {
         Task<List<TodoItem>> GetAllTodoItems();
         Task<List<TodoGroup>> GetAllTodoGroups();

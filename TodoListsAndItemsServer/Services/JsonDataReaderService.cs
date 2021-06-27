@@ -11,7 +11,7 @@ using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace TodoListsAndItemsServer.Services
 {
-    public class JsonDataReaderService : IDataReaderService
+    public class JsonDataReaderService : IItemDataReaderService
     {
         private const string _basePath = "Data";
         private const string _todoItemsFile = "TodoItems.json";

@@ -47,6 +47,15 @@ namespace TodoListsAndItemsServer.Controllers
             }
         }
 
+        [HttpGet("countAll")]
+        public async Task<ActionResult<int>> GetNumberOfTodoGroups()
+        {
+            var AllGroupsCounter = (await this._todosRepository.GetAllTodoGroups())
+                                                               .Count();
+
+            return Ok(AllGroupsCounter);
+        }
+
         [HttpDelete("{id}")]
         public async Task<ActionResult> RemoveGroup(int id)
         {
@@ -66,9 +75,10 @@ namespace TodoListsAndItemsServer.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult<TodoGroupDTO>> RemoveGroup(int id, [FromBody] TodoGroupDTO groupDTO)
         {
+            var group = TodoGroupMapper.MapToGroup(groupDTO);
+
             try
             {
-                var group = TodoGroupMapper.MapToGroup(groupDTO);
 
                 await _todosRepository.EditTodoGroupById(id, group);
 
@@ -85,14 +95,21 @@ namespace TodoListsAndItemsServer.Controllers
         public async Task<ActionResult<TodoGroup>> AddNewGroup([FromBody] TodoGroupDTO groupDTO)
         {
             var group = TodoGroupMapper.MapToGroup(groupDTO);
+            
+            try
+            {
 
-            var newGroup = await _todosRepository.AddNewGroup(group);
+                var newGroup = await _todosRepository.AddNewGroup(group);
 
-            var finalGroupDTO = TodoGroupMapper.MapToGroupDTO(newGroup);
+                var finalGroupDTO = TodoGroupMapper.MapToGroupDTO(newGroup);
 
-            return Created(nameof(GetTodoGroupById), finalGroupDTO);
+                return Created(nameof(GetTodoGroupById), finalGroupDTO);
+            }
 
-            //return CreatedAtRoute(nameof(GetTodoGroupById), new { finalGroupDTO = finalGroupDTO.Id }, finalGroupDTO);
+            catch
+            {
+                return BadRequest();
+            }
         }
     }
 }

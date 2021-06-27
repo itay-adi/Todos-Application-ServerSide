@@ -21,7 +21,6 @@ namespace TodoListsAndItemsServer.Services
         Task<TodoItem> GetTodoItemById(int itemId);
         Task<Task> DeleteTodoItemById(int itemId);
         Task<TodoItem> ChangeTodoItemStatus(int itemId);
-        
-        //Task<TodoItem> AddTodoItem(TodoItem todoItem);
+        Task<TodoItem> AddTodoItem(TodoItem todoItem);
     }
 }

@@ -28,7 +28,7 @@ namespace TodoListsAndItemsServer
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddTransient<IDataReaderService, JsonDataReaderService>();//New Object for each call
+            services.AddTransient<IItemDataReaderService, JsonDataReaderService>();//New Object for each call
             services.AddScoped<ITodosRepositoryService, TodosRepositoryService>();//Same Object for all calls
 
             services.AddCors(options =>
