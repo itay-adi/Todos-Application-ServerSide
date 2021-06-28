@@ -2,12 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text.Json;
 using System.Threading.Tasks;
 using TodoListsAndItemsServer.Entities;
-using TodoListsAndItemsServer.Models.DTOs;
-using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace TodoListsAndItemsServer.Services
 {
@@ -39,7 +35,7 @@ namespace TodoListsAndItemsServer.Services
         {
             try
             {
-                string json = JsonSerializer.Serialize(todoItem);
+                string json = JsonConvert.SerializeObject(todoItem);
                 var filePath = Path.Combine(_basePath, _todoItemsFile);
                 File.WriteAllText(filePath, json);
 
@@ -55,7 +51,7 @@ namespace TodoListsAndItemsServer.Services
         {
             try
             {
-                string json = JsonSerializer.Serialize(todoGroup);
+                string json = JsonConvert.SerializeObject(todoGroup);
                 var filePath = Path.Combine(_basePath, _todoGroupsFile);
                 File.WriteAllText(filePath, json);
 

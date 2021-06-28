@@ -26,10 +26,11 @@ namespace TodoListsAndItemsServer
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
+        // Here we resolve the dependancy injection
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddTransient<IItemDataReaderService, JsonDataReaderService>();//New Object for each call
-            services.AddScoped<ITodosRepositoryService, TodosRepositoryService>();//Same Object for all calls
+            services.AddScoped<ITodosRepositoryService, JsonTodoRepositoryService>();//Same Object for all calls
 
             services.AddCors(options =>
             {

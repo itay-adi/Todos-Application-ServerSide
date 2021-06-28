@@ -6,14 +6,14 @@ using TodoListsAndItemsServer.Entities;
 
 namespace TodoListsAndItemsServer.Services.Repositories
 {
-    public class TodosRepositoryService : ITodosRepositoryService
+    public class JsonTodoRepositoryService : ITodosRepositoryService
     {
-        private IItemDataReaderService _dataReader;
+        private readonly IItemDataReaderService _dataReader;
 
         private Dictionary<int, TodoItem> _todoItems;
         private Dictionary<int, TodoGroup> _todoGroups;
 
-        public TodosRepositoryService(IItemDataReaderService dataReader)
+        public JsonTodoRepositoryService(IItemDataReaderService dataReader)
         {
             _dataReader = dataReader;
         }
@@ -33,14 +33,30 @@ namespace TodoListsAndItemsServer.Services.Repositories
         {
             await _LoadGroups();
 
-            return _todoGroups.Values.ToList();
+            try
+            {
+                return _todoGroups.Values.ToList();
+            }
+
+            catch
+            {
+                throw new Exception("Could not get all groups");
+            }
         }
 
         public async Task<TodoGroup> GetTodoGroupById(int groupId)
         {
             await _LoadGroups();
 
-            return _todoGroups[groupId];
+            try
+            {
+                return _todoGroups[groupId];
+            }
+
+            catch
+            {
+                throw new ArgumentException($"Could not find groups No. {groupId}");
+            }
         }
 
         public async Task<Task> DeleteTodoGroupById(int groupId)
@@ -86,7 +102,7 @@ namespace TodoListsAndItemsServer.Services.Repositories
         {
             await _LoadGroups();
 
-            if (_todoGroups.Count() > 0) {
+            if (_todoGroups.Count > 0) {
                 group.Id = _todoGroups.Keys.Max() + 1; 
             }
 
@@ -107,14 +123,30 @@ namespace TodoListsAndItemsServer.Services.Repositories
         {
             await _LoadItems();
 
-            return _todoItems.Values.ToList();
+            try
+            {
+                return _todoItems.Values.ToList();
+            }
+
+            catch
+            {
+                throw new Exception("Could not get all Items");
+            }
         }
 
         public async Task<TodoItem> GetTodoItemById(int itemId)
         {
             await _LoadItems();
 
-            return _todoItems[itemId];
+            try
+            {
+                return _todoItems[itemId];
+            }
+
+            catch
+            {
+                throw new ArgumentException($"Could not find Item No. {itemId}");
+            }
         }
            
         public async Task<Task> DeleteTodoItemById(int itemId)
@@ -156,7 +188,7 @@ namespace TodoListsAndItemsServer.Services.Repositories
             await _LoadItems();
             await _LoadGroups();
 
-            if (_todoItems.Count() > 0)
+            if (_todoItems.Count > 0)
             {
                 todoItem.Id = _todoItems.Keys.Max() + 1;
             }

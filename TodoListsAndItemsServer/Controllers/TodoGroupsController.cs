@@ -25,10 +25,18 @@ namespace TodoListsAndItemsServer.Controllers
         [HttpGet]
         public async Task<ActionResult<List<TodoGroupDTO>>> GetAllGroups()
         {
-            var AllGroups = await this._todosRepository.GetAllTodoGroups();
-            var AllGroupsDTO = AllGroups.Select(g => TodoGroupMapper.MapToGroupDTO(g)).ToList();
+            try
+            {
+                var AllGroups = await this._todosRepository.GetAllTodoGroups();
+                var AllGroupsDTO = AllGroups.Select(g => TodoGroupMapper.MapToGroupDTO(g)).ToList();
 
-            return Ok(AllGroupsDTO);
+                return Ok(AllGroupsDTO);
+            }
+
+            catch
+            {
+                return BadRequest();
+            }
         }
 
         [HttpGet("{id}")]
@@ -50,10 +58,18 @@ namespace TodoListsAndItemsServer.Controllers
         [HttpGet("countAll")]
         public async Task<ActionResult<int>> GetNumberOfTodoGroups()
         {
-            var AllGroupsCounter = (await this._todosRepository.GetAllTodoGroups())
-                                                               .Count();
+            try
+            {
+                var AllGroupsCounter = (await this._todosRepository.GetAllTodoGroups())
+                                                                   .Count;
 
-            return Ok(AllGroupsCounter);
+                return Ok(AllGroupsCounter);
+            }
+
+            catch
+            {
+                return BadRequest();
+            }
         }
 
         [HttpDelete("{id}")]
