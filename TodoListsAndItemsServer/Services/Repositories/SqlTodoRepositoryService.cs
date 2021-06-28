@@ -1,13 +1,22 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TodoListsAndItemsServer.DataAccess;
 using TodoListsAndItemsServer.Entities;
 
 namespace TodoListsAndItemsServer.Services.Repositories
 {
     public class SqlTodoRepositoryService : ITodosRepositoryService
     {
+        private readonly DataContext _dataContext;
+
+        public SqlTodoRepositoryService(DataContext dataContext)
+        {
+            _dataContext = dataContext;
+        }
+
         public Task<TodoGroup> AddNewGroup(TodoGroup group)
         {
             throw new NotImplementedException();
@@ -38,14 +47,18 @@ namespace TodoListsAndItemsServer.Services.Repositories
             throw new NotImplementedException();
         }
 
-        public Task<List<TodoGroup>> GetAllTodoGroups()
+        public async Task<List<TodoGroup>> GetAllTodoGroups()
         {
-            throw new NotImplementedException();
+            var allGroups = await this._dataContext.TodoGroups.ToListAsync();
+
+            return allGroups;
         }
 
-        public Task<List<TodoItem>> GetAllTodoItems()
+        public async Task<List<TodoItem>> GetAllTodoItems()
         {
-            throw new NotImplementedException();
+            var allItems = await this._dataContext.TodoItems.ToListAsync();
+
+            return allItems;
         }
 
         public Task<TodoGroup> GetTodoGroupById(int groupId)

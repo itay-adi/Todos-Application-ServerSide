@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -9,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TodoListsAndItemsServer.DataAccess;
 using TodoListsAndItemsServer.Services;
 using TodoListsAndItemsServer.Services.Repositories;
 
@@ -29,8 +31,15 @@ namespace TodoListsAndItemsServer
         // Here we resolve the dependancy injection
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddTransient<IItemDataReaderService, JsonDataReaderService>();//New Object for each call
-            services.AddScoped<ITodosRepositoryService, JsonTodoRepositoryService>();//Same Object for all calls
+            //SQL:
+            //In order to use the one below, install Microsoft.EntityFrameworkCore.SqlServer
+            services.AddDbContext<DataContext>(
+                options => options.UseSqlServer("name=ConnectionStrings:TodoListsAndItemsServer")); //get name from appsettings.json
+            services.AddScoped<ITodosRepositoryService, SqlTodoRepositoryService>();
+
+            //Json:
+            //services.AddTransient<IItemDataReaderService, JsonDataReaderService>();//New Object for each call
+            //services.AddScoped<ITodosRepositoryService, JsonTodoRepositoryService>();//Same Object for all calls
 
             services.AddCors(options =>
             {
