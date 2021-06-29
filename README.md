@@ -13,7 +13,7 @@ The server has the option to manage the data (todo items, and todo groups/lists)
       * Retruns all the todoitems
       
   2. **[HttpGet("{id}")]** Task<ActionResult<TodoItemDTO>> GetTodoItemById(int id)
-      * Return a todo item according to its ID number
+      * Return a todo item by its ID
       
   3. **[HttpGet("completed")]** Task<ActionResult<TodoItemDTO>> GetCompletedTodoItems()
       * Return all the completed todo items
@@ -47,3 +47,29 @@ The server has the option to manage the data (todo items, and todo groups/lists)
   #### PATCH:
   1. **[HttpDelete("{id}")]** Task<ActionResult> RemoveItem(int id)
       * Delete a todo item according to its ID
+
+  ### TodoGroups controller:
+  #### GET:
+  1. **[HttpGet]** Task<ActionResult<List<TodoGroupDTO>>> GetAllGroups()
+      * Return all the todo groups
+
+  2. **[HttpGet("{id}")]** Task<ActionResult<TodoGroupDTO>> GetTodoGroupById(int id)
+      * Retrun a group by its ID
+
+  3. **[HttpGet("countAll")]** Task<ActionResult<int>> GetNumberOfTodoGroups()
+      * Return the number of todo groups
+
+  #### POST:
+  1. **[HttpPost]** Task<ActionResult<TodoGroup>> AddNewGroup([FromBody] TodoGroupDTO groupDTO)
+      * Insert a new todo group
+
+  #### PUT:
+  1. **[HttpPut("{id}")]** Task<ActionResult<TodoGroupDTO>> EditGroup(int id, [FromBody] TodoGroupDTO groupDTO)
+      * Edit an existing todo group with new details (color, icon, etc.)
+
+  #### DELETE:
+  1. **[HttpDelete("{id}")]** Task<ActionResult> RemoveGroup(int id)
+      * Remove a todo group **AND ITS ITEMS**
+  
+    
+    
