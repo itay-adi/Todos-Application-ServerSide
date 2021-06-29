@@ -89,7 +89,7 @@ namespace TodoListsAndItemsServer.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<TodoGroupDTO>> RemoveGroup(int id, [FromBody] TodoGroupDTO groupDTO)
+        public async Task<ActionResult<TodoGroupDTO>> EditGroup(int id, [FromBody] TodoGroupDTO groupDTO)
         {
             if(id != groupDTO.Id)
             {
