@@ -1,6 +1,6 @@
 # Todos-Application
 A full-stack end to end web application contains a three-layer architecture design.
-consisting a [client side](https://github.com/itay-adi/Todos-Application-ClientSide), a [server side](https://github.com/itay-adi/Todos-Application-ServerSide) and an DataBase (JSON or SQL)
+consisting a [client side](https://github.com/itay-adi/Todos-Application-ClientSide), a [server side](https://github.com/itay-adi/Todos-Application-ServerSide) and a DataBase (JSON or SQL)
 
 ## ServerSide
 An ASP.NET 5.0 Server application, supporting http request through REST api (GET/POST/PUT/PATCH/DELETE).
