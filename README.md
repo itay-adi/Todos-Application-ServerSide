@@ -7,7 +7,7 @@ The purpose of this server is to function as the back side of the todo web appli
 The server has the option to manage the data (todo items, and todo groups/lists) through JSON files, or through SQL server
 
 ## Server api
-### TodoItems controller:
+## TodoItems controller:
   #### GET:
   1. **[HttpGet]** Task<ActionResult<List<TodoItemDTO>>> GetAllItems()
       * Retruns all the todoitems
@@ -48,7 +48,7 @@ The server has the option to manage the data (todo items, and todo groups/lists)
   1. **[HttpDelete("{id}")]** Task<ActionResult> RemoveItem(int id)
       * Delete a todo item according to its ID
 
-  ### TodoGroups controller:
+  ## TodoGroups controller:
   #### GET:
   1. **[HttpGet]** Task<ActionResult<List<TodoGroupDTO>>> GetAllGroups()
       * Return all the todo groups
