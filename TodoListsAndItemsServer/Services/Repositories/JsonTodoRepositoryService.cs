@@ -80,18 +80,18 @@ namespace TodoListsAndItemsServer.Services.Repositories
             return Task.CompletedTask;
         }
 
-        public async Task<TodoGroup> EditTodoGroupById(int id, TodoGroup group)
+        public async Task<TodoGroup> EditTodoGroup(TodoGroup group)
         {
             await _LoadGroups();
 
-            if (!_todoGroups.ContainsKey(id))
+            if (!_todoGroups.ContainsKey(group.Id))
             {
-                throw new ArgumentException($"TodoGroup: {id} doesnt exist");
+                throw new ArgumentException($"TodoGroup: {group.Id} doesnt exist");
             }
 
-            _todoGroups.Remove(id);
+            _todoGroups.Remove(group.Id);
 
-            _todoGroups[id] = group;
+            _todoGroups[group.Id] = group;
 
             await _dataReader.WriteToTodoGroups(_todoGroups.Values.ToList());
 

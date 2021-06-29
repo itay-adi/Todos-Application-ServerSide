@@ -91,12 +91,17 @@ namespace TodoListsAndItemsServer.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult<TodoGroupDTO>> RemoveGroup(int id, [FromBody] TodoGroupDTO groupDTO)
         {
+            Console.WriteLine("id" + id + ", " + groupDTO.Id);
+            if(id != groupDTO.Id)
+            {
+                return BadRequest();
+            }
+
             var group = TodoGroupMapper.MapToGroup(groupDTO);
 
             try
             {
-
-                await _todosRepository.EditTodoGroupById(id, group);
+                await _todosRepository.EditTodoGroup(group);
 
                 return Ok(groupDTO);
             }

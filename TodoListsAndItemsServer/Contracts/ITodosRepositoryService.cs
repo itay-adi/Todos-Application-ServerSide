@@ -13,7 +13,7 @@ namespace TodoListsAndItemsServer.Services
         Task<List<TodoGroup>> GetAllTodoGroups();
         Task<TodoGroup> GetTodoGroupById(int groupId);
         Task<Task> DeleteTodoGroupById(int groupId);
-        Task<TodoGroup> EditTodoGroupById(int id, TodoGroup group);
+        Task<TodoGroup> EditTodoGroup(TodoGroup group);
         Task<TodoGroup> AddNewGroup(TodoGroup group);
 
         //Todo Item Methods

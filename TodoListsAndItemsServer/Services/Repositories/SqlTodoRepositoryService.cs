@@ -16,35 +16,67 @@ namespace TodoListsAndItemsServer.Services.Repositories
         {
             _dataContext = dataContext;
         }
-
-        public Task<TodoGroup> AddNewGroup(TodoGroup group)
+        
+        public async Task<TodoGroup> AddNewGroup(TodoGroup group)
         {
-            throw new NotImplementedException();
+            var newGroup = await this._dataContext.TodoGroups.AddAsync(group);
+            await _dataContext.SaveChangesAsync();
+
+            return newGroup.Entity;
         }
 
-        public Task<TodoItem> AddTodoItem(TodoItem todoItem)
+        public async Task<TodoItem> AddTodoItem(TodoItem todoItem)
         {
-            throw new NotImplementedException();
+            var newItem = await this._dataContext.TodoItems.AddAsync(todoItem);
+            await _dataContext.SaveChangesAsync();
+
+            return newItem.Entity;
         }
 
-        public Task<TodoItem> ChangeTodoItemStatus(int itemId)
+        public async Task<TodoItem> ChangeTodoItemStatus(int itemId)
         {
-            throw new NotImplementedException();
+            var item = await GetTodoItemById(itemId);
+            item.IsCompleted = !item.IsCompleted;
+            await _dataContext.SaveChangesAsync();
+
+            return item;
         }
 
-        public Task<Task> DeleteTodoGroupById(int groupId)
+        public async Task<Task> DeleteTodoGroupById(int groupId)
         {
-            throw new NotImplementedException();
+            var items = (await GetAllTodoItems()).Where(i => i.GroupId == groupId);
+            _dataContext.TodoItems.RemoveRange(items);
+
+            var group = await GetTodoGroupById(groupId);
+            _dataContext.TodoGroups.Remove(group);
+
+            await _dataContext.SaveChangesAsync();
+
+            return Task.CompletedTask;
         }
 
-        public Task<Task> DeleteTodoItemById(int itemId)
+        public async Task<Task> DeleteTodoItemById(int itemId)
         {
-            throw new NotImplementedException();
+            var item = (await GetTodoItemById(itemId));
+            _dataContext.TodoItems.Remove(item);
+
+            await _dataContext.SaveChangesAsync();
+
+            return Task.CompletedTask;
         }
 
-        public Task<TodoGroup> EditTodoGroupById(int id, TodoGroup group)
+        public async Task<TodoGroup> EditTodoGroup(TodoGroup group)
         {
-            throw new NotImplementedException();
+            var exsitingGroup = await GetTodoGroupById(group.Id);
+
+            exsitingGroup.Caption = group.Caption;
+            exsitingGroup.Color = group.Color;
+            exsitingGroup.Description = group.Description;
+            exsitingGroup.Icon = group.Icon;
+
+            await _dataContext.SaveChangesAsync();
+
+            return exsitingGroup;
         }
 
         public async Task<List<TodoGroup>> GetAllTodoGroups()
@@ -61,14 +93,26 @@ namespace TodoListsAndItemsServer.Services.Repositories
             return allItems;
         }
 
-        public Task<TodoGroup> GetTodoGroupById(int groupId)
+        public async Task<TodoGroup> GetTodoGroupById(int groupId)
         {
-            throw new NotImplementedException();
+            var group = await this._dataContext.TodoGroups.FindAsync(groupId);
+
+            return group;
         }
 
-        public Task<TodoItem> GetTodoItemById(int itemId)
+        public async Task<TodoItem> GetTodoItemById(int itemId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var item = await this._dataContext.TodoItems.FindAsync(itemId);
+
+                return item;
+            }
+
+            catch
+            {
+                throw new ArgumentException($"Could not find Item No. {itemId}");
+            }
         }
     }
 }
