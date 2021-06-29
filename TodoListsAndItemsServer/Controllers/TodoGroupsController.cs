@@ -91,7 +91,6 @@ namespace TodoListsAndItemsServer.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult<TodoGroupDTO>> RemoveGroup(int id, [FromBody] TodoGroupDTO groupDTO)
         {
-            Console.WriteLine("id" + id + ", " + groupDTO.Id);
             if(id != groupDTO.Id)
             {
                 return BadRequest();

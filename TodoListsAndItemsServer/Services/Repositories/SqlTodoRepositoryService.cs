@@ -48,35 +48,51 @@ namespace TodoListsAndItemsServer.Services.Repositories
             _dataContext.TodoItems.RemoveRange(items);
 
             var group = await GetTodoGroupById(groupId);
-            _dataContext.TodoGroups.Remove(group);
 
-            await _dataContext.SaveChangesAsync();
+            if(null != group)
+            {
+                _dataContext.TodoGroups.Remove(group);
 
-            return Task.CompletedTask;
+                await _dataContext.SaveChangesAsync();
+
+                return Task.CompletedTask;
+            }
+
+            throw new ArgumentException($"TodoGroup: {groupId} doesnt exist");
         }
 
         public async Task<Task> DeleteTodoItemById(int itemId)
         {
-            var item = (await GetTodoItemById(itemId));
-            _dataContext.TodoItems.Remove(item);
+            var item = await GetTodoItemById(itemId);
 
-            await _dataContext.SaveChangesAsync();
+            if(null != item)
+            {
+                _dataContext.TodoItems.Remove(item);
+                await _dataContext.SaveChangesAsync();
+                
+                return Task.CompletedTask;
+            }
 
-            return Task.CompletedTask;
+            throw new ArgumentException($"TodoItem: {itemId} doesnt exist");
         }
 
         public async Task<TodoGroup> EditTodoGroup(TodoGroup group)
         {
             var exsitingGroup = await GetTodoGroupById(group.Id);
 
-            exsitingGroup.Caption = group.Caption;
-            exsitingGroup.Color = group.Color;
-            exsitingGroup.Description = group.Description;
-            exsitingGroup.Icon = group.Icon;
+            if (null != exsitingGroup)
+            {
+                exsitingGroup.Caption = group.Caption;
+                exsitingGroup.Color = group.Color;
+                exsitingGroup.Description = group.Description;
+                exsitingGroup.Icon = group.Icon;
+            
+                await _dataContext.SaveChangesAsync();
 
-            await _dataContext.SaveChangesAsync();
-
-            return exsitingGroup;
+                return exsitingGroup;
+            }
+            
+            throw new ArgumentException($"Could not find groups No. {group.Id}");
         }
 
         public async Task<List<TodoGroup>> GetAllTodoGroups()
@@ -97,22 +113,24 @@ namespace TodoListsAndItemsServer.Services.Repositories
         {
             var group = await this._dataContext.TodoGroups.FindAsync(groupId);
 
-            return group;
+            if (null != group)
+            {
+                return group;
+            }
+
+            throw new ArgumentException($"Could not find groups No. {groupId}");
         }
 
         public async Task<TodoItem> GetTodoItemById(int itemId)
         {
-            try
-            {
-                var item = await this._dataContext.TodoItems.FindAsync(itemId);
+            var item = await this._dataContext.TodoItems.FindAsync(itemId);
 
+            if (null != item)
+            {
                 return item;
             }
-
-            catch
-            {
-                throw new ArgumentException($"Could not find Item No. {itemId}");
-            }
+            
+            throw new ArgumentException($"Could not find Item No. {itemId}");
         }
     }
 }
