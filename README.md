@@ -4,7 +4,7 @@ An end to end Application, which consists a [client side](https://github.com/ita
 ## ServerSide
 An ASP.NET 5.0 Server application, supporting http request through Web api (GET/POST/PUT/PATCH/DELETE).
 The purpose of this server is to function as the back side of the todo web application.
-The server has the option to manage the data (todo items, and todo groups/lists) through JSON files, or through SQL server
+The server has the option to manage the data (todo items, and todo groups/lists) through JSON files, or through an SQL server
 
 ## Server api
 ## TodoItems controller:
