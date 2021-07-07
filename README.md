@@ -7,6 +7,8 @@ An ASP.NET 5.0 Server application, supporting http request through REST api (GET
 The purpose of this server is to function as the back side of the todo web application.
 The server has the option to manage the data (todo items, and todo groups/lists) through JSON files, or through an SQL server (implemented using entity framework)
 
+---------------------------------------------------------------------------------------
+
 ## Server api
 ## TodoItems controller:
   #### GET:
@@ -48,6 +50,8 @@ The server has the option to manage the data (todo items, and todo groups/lists)
   #### PATCH:
   1. **[HttpDelete("{id}")]** Task<ActionResult> RemoveItem(int id)
       * Delete a todo item according to its ID
+
+---------------------------------------------------------------------------------------
 
   ## TodoGroups controller:
   #### GET:
